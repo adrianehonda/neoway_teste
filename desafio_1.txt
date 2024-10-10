@@ -1,0 +1,16 @@
+Desafio: Análise de documentos e criação de cenários de testes
+
+Analisando a documentação fictícia, foi identificado alguns pontos que necessitam de maiores esclarecimentos.
+1. Para ampliar as informações através de dados adicionais, devemos especificar quais dados serão obrigatórios e quais serão opcionais nesse fornecimento de dados, e identificar o que seriam “outras informações sobre os livros”. É necessário definir claramente todos os campos de dados que serão entregues.
+2. Identificar qual será o formato exato do arquivo fornecido pelo cliente e como os dados serão compilados para ser entregue ao cliente futuramente. Qual seria a estrutura esperada? Devemos aceitar mais de um formato?
+3. As consultas, busca por informações deverão trazer resultados de acordo com algum filtro? Definir quais filtros existirão no sistema para buscar as informações. 
+4. Identificar qual será o tamanho do arquivo/volume de dados, e se haverá um limite na quantidade de registros, tanto de armazenamento como de busca. Será usado paginação ou carregaremos os dados conforme a rolagem da página?
+5. Será adicionado imagens nos detalhes dos livros? Precisamos aceitar esse formato também.
+6. O enriquecimento de dados ocorrerá apenas uma vez ou será algo periódico. Deve-se estabelecer um cronograma com prazos de entrega e atualização do sistema.
+7. Necessário descrever as validações que serão realizadas, bem como o tratamento de erro, caso haja impossibilidade de leitura do arquivo ou exista algum dado inexistente.
+8. Identificar os possíveis erros que podem acontecer - dados inexistentes, malformatações do arquivo, servidor offline.
+9. Adicionar geração de logs para controle de qualidade, identificação de erros, entre outros.
+10. Criação de relatórios identificando dados mais buscados, periodicidade de acesso.
+11. Definir como serão apresentados os dados dos livros, esteticamente na tela.
+12. Em relação ao filtro de busca, ele deverá trazer dados somente após a digitação finalizada e a ação do click no botão, ou carregaremos os dados após a digitação de 3 letras, por exemplo. Haverá um autocomplete? Um botão de Limpar?
+13. Aplicaremos acessibilidade no projeto?
