@@ -1,0 +1,45 @@
+Relatório de Teste de Desempenho da API de Listagem de Usuários Cadastrados
+
+1. Objetivo do Teste
+
+O objetivo deste teste de desempenho é avaliar a eficiência da API de listagem de usuários cadastrados sob carga, especificamente quando cinco usuários simultâneos realizam requisições à API durante um período de cinco minutos. Além disso, buscamos identificar possíveis gargalos e garantir que a API mantenha um desempenho adequado sob carga realista.
+
+2. Metodologia
+
+	•	Ferramenta Utilizada: Postman
+	•	Cenário de Teste:
+	        - Realizar chamadas à API de listagem de usuários.
+	        - Carga de 5 usuários simultâneos: simulando um cenário que representa a utilização típica da API.
+	        - Duração do teste: 5 minutos.
+	•	Endpoint Impactado:
+	        - Pesquisa (GET) https://serverest.dev/usuarios
+	•	Critérios de Sucesso:
+	        - Respostas da API devem ser retornadas dentro de um tempo aceitável (ex: < 2 segundos).
+	        - A taxa de erro deve ser inferior a 1%. Isso garantirá que a API esteja operando de maneira confiável, mesmo sob carga.
+	•	Variáveis de Monitoramento:
+	        - Além dos critérios de sucesso, consideramos monitorar o uso do recurso do servidor (CPU, memória, etc.) para identificar se há impacto no desempenho durante o teste, através do endereço http://localhost:3000/status
+
+3. Resultados Obtidos
+3.1. Desempenho
+	•	Tempo médio de resposta: 187ms (performance1), 341ms (performance2)
+	•	Tempo máximo de resposta: 448ms (performance1), 1442ms (performance2)
+	•	Taxa de erro: 0.00%
+	•	Total de requisições realizadas: 1290 (performance1), 1050 (performance2)
+	•	Requisições por segundo: 4.22 requests/segundo (performance1), 3.37 requests/segundo (perfomance2)
+
+3.2. Gráficos e Tabelas
+	•	Verificar os arquivos ServeRest-Neoway-performance1.pdf e ServeRest-Neoway-performance2.pdf
+	•	Verificar o comparativo dos 2 testes realizados em diferentes dias e horários: comparativo_performace.png
+
+4. Análise dos Resultados
+	•	Análise do Tempo de Resposta: O tempo médio de resposta foi de 187 ms no primeiro teste e 341 ms no segundo teste. Ambos os resultados estão dentro do limite aceitável de 2 segundos. É importante observar a variação entre os testes e considerar investigar o que pode ter causado o aumento no segundo teste.
+	•	Taxa de Erro: A taxa de erro foi de 0%, o que é um resultado excelente. Manter essa taxa baixa é crucial, pois uma taxa de erro acima de 1% pode indicar problemas na infraestrutura ou na lógica da aplicação sob carga. Sugiro que continuemos a monitorar essa métrica em testes futuros.
+	•	Comportamento Sob Carga: Durante os 5 minutos de teste, a API manteve um desempenho estável, indicando que o sistema é capaz de lidar com a carga simulada sem degradação significativa.
+5. Conclusões e Recomendações
+	•	Conclusões: A API de listagem de usuários cadastrados se comportou muito bem sob a carga simulada de 5 usuários simultâneos. O desempenho geral ficou dentro das expectativas, mas é importante realizar testes adicionais para uma análise mais abrangente.
+	•	Recomendações:
+	        - Aumentar o número de usuários simulados: Realizar o fluxo com mais usuários (por exemplo, 10, 20 e 50) para garantir a eficiência da resposta e identificação de possíveis erros em cenários de carga mais intensa.
+	        - Monitoramento contínuo: Implementar um monitoramento regular da API para identificar potenciais problemas de desempenho antes que impactem os usuários finais. Considerar ferramentas de monitoramento de performance para ajudar nessa tarefa.
+	        - Análise de Logs: Revisar os logs de acesso e erro durante os testes para identificar possíveis gargalos ou comportamentos inesperados que podem não ter sido capturados nas métricas.
+
+
