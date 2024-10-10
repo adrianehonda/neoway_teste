@@ -15,7 +15,7 @@ Este documento fornece orientações sobre como usar a coleção do Postman para
 
 2. **Importar a Collection**:
    - Clique no botão `Import` no canto superior esquerdo.
-   - Selecione a aba `File` e arraste o arquivo JSON para a área de importação ou clique em `Choose Files` e localize o arquivo.
+   - Aarraste o arquivo JSON para a área de importação ou clique em `select files` e localize o arquivo.
    - Clique em `Import` para adicionar a coleção à sua lista.
 
 3. **Visualizar a Collection**:
