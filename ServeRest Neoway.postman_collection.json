@@ -1,0 +1,857 @@
+{
+	"info": {
+		"_postman_id": "0e1b3b08-1401-4286-b58d-ed5cc0191ffa",
+		"name": "ServeRest Neoway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36146334"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Realizar Login 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Login efetuado com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Login realizado com sucesso\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"beltrano@qa.com.br\",\n  \"password\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Realizar Login 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Erro ao logar\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Email e/ou senha inválidos\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fulano@qa.br\",\n  \"password\": \"teste\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuários",
+			"item": [
+				{
+					"name": "Listar Usuários Cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"quantidade\": {",
+									"            \"type\": \"number\"",
+									"        },",
+									"        \"usuarios\": {",
+									"            \"type\": \"array\",",
+									"            \"items\": {",
+									"                \"type\": \"object\",",
+									"                \"properties\": {",
+									"                    \"nome\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"email\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"password\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"administrador\": {",
+									"                        \"type\": \"string\"",
+									"                    },",
+									"                    \"_id\": {",
+									"                        \"type\": \"string\"",
+									"                    }",
+									"                },",
+									"                \"required\": [\"nome\", \"email\", \"password\", \"administrador\", \"_id\"],",
+									"                \"additionalProperties\": false",
+									"            }",
+									"        }",
+									"    },",
+									"    \"required\": [\"quantidade\", \"usuarios\"],",
+									"    \"additionalProperties\": false",
+									"}",
+									"",
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Valida retorno de lista de usuarios cadastrados\", function(){",
+									"    const Ajv = require('ajv')",
+									"    const ajv = new Ajv({allErrors: true})",
+									"",
+									"    const retornoValidacao = ajv.validate(schema, responseJson)",
+									"",
+									"    pm.expect(retornoValidacao, JSON.stringify(ajv.errors)).to.be.true",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Usuário 201",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Cadastro com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Cadastro realizado com sucesso\")",
+									"});",
+									"",
+									"let resJson = pm.response.json()",
+									"",
+									"if(pm.response.code == 201) {",
+									"    pm.environment.set(\"newUserId\", resJson._id);",
+									"}",
+									"",
+									"const schema = {",
+									"    \"type\": \"object\",",
+									"    \"properties\": {",
+									"        \"message\": {",
+									"            \"type\": \"string\"",
+									"        },",
+									"        \"_id\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    },",
+									"    \"required\": [\"message\", \"_id\"],",
+									"    \"additionalProperties\": false",
+									"}",
+									"",
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Valida schema de cadastro de usuario\", function(){",
+									"    const Ajv = require('ajv')",
+									"    const ajv = new Ajv({allErrors: true})",
+									"",
+									"    const retornoValidacao = ajv.validate(schema, responseJson)",
+									"",
+									"    pm.expect(retornoValidacao, JSON.stringify(ajv.errors)).to.be.true",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"{{$randomFullName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar Usuário 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Erro ao logar\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Este email já está sendo usado\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Fulano da Silva\",\n  \"email\": \"beltrano@qa.com.br\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Usuário Por ID 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{newUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{newUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Usuário por ID 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Erro na busca pelo usuário\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Usuário não encontrado\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "zmi2eemoBLrM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuário 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Cadastro com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Registro alterado com sucesso\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"{{$randomFullName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{newUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{newUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuário 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Email já em uso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Este email já está sendo usado\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Fulano da Silva\",\n  \"email\": \"beltrano@qa.com.br\",\n  \"password\": \"teste\",\n  \"administrador\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{newUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{newUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Usuário 200 Msg 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Usuário excluído com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Registro excluído com sucesso\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/{{newUserId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"{{newUserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Usuário 200 Msg 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Usuário excluído com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Nenhum registro excluído\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "0kpimSdnzvK2AWhB"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Usuário 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Não é permitido excluir usuário com carrinho cadastrado\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Não é permitido excluir usuário com carrinho cadastrado\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "0uxuPY0cbmQhpEz1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Cadastrar Produto",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {",
+									"    url: pm.environment.get(\"baseUrl\") + \"/login\",",
+									"    method: \"POST\",",
+									"    body: {",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            email: \"beltrano@qa.com.br\",",
+									"            password: \"teste\"",
+									"        }),",
+									"        options: {",
+									"            raw: {",
+									"                language: \"json\"",
+									"            }",
+									"        },",
+									"    }",
+									"}",
+									"",
+									"pm.sendRequest(postRequest, function (err, res) {",
+									"    let responseJson = res.json()",
+									"    let auth = responseJson[\"authorization\"].split(' ')",
+									"    pm.environment.set(\"token\", auth[1])",
+									"})",
+									"",
+									"pm.environment.set(\"randomProduct\", `product ${Math.random()}`)",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"let resJson = pm.response.json()",
+									"",
+									"if(pm.response.code == 201) {",
+									"    pm.environment.set(\"newProductId\", resJson._id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"{{randomProduct}}\",\n  \"preco\": 100,\n  \"descricao\": \"Carregador\",\n  \"quantidade\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/produtos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Produtos Cadastrados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produtos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Produto Por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produtos/{{newProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos",
+								"{{newProductId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Produto 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Produto excluído com sucesso\", function(){",
+									"    let responseJson = pm.response.json()",
+									"    pm.expect(responseJson.message).to.eql(\"Registro excluído com sucesso\")",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/produtos/{{newProductId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"produtos",
+								"{{newProductId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
